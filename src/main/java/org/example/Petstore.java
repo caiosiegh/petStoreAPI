@@ -71,9 +71,9 @@ public class Petstore {
         String idInvalido = "123!asd";
 
         given().get("/pet/" + idInvalido).then()
-                .body("message", containsString("NumberFormatException: For input string:"))
-                .body("message", containsString(idInvalido)).body("code", equalTo(404))
-                        .statusCode(404).log().all();
+                .body("message", containsString("NumberFormatException: For input string:"),
+                        "message", containsString(idInvalido), "code", equalTo(404)).statusCode(404).log().all();
+
 
     }
 
@@ -81,9 +81,9 @@ public class Petstore {
     public void pesquisarPetStatusPending() {
 
         given().queryParam("status", "pending").get("/pet/findByStatus/").then()
-                .body("status", everyItem(equalTo("pending")))
-                .body("id", notNullValue())
-                .body("name", everyItem(not(isEmptyOrNullString()))).statusCode(200).log().all();
+                .body("status", everyItem(equalTo("pending")),
+                        "id", notNullValue(), "name", everyItem(not(isEmptyOrNullString())))
+                .statusCode(200).log().all();
 
     }
 
